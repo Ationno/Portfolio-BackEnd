@@ -9,6 +9,8 @@ package com.YoProgramo.backend.model;
  * @author anton
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,11 +33,13 @@ public class Lenguaje {
     @Size(min = 1, max = 90, message = "La longitud del nombre del lenguaje no es valido")
     private String nombre;
     
-    @ManyToMany(mappedBy = "lenguajesUsados")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "lenguajes", cascade = CascadeType.ALL)
     Set<Proyecto> proyectos;
 
-    public Lenguaje(String nombre, Set<Proyecto> proyectos) {
+    public Lenguaje() {}
+    
+    public Lenguaje(String nombre) {
         this.nombre = nombre;
-        this.proyectos = proyectos;
     }
 }

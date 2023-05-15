@@ -4,9 +4,11 @@
  */
 package com.YoProgramo.backend.service;
 
+import com.YoProgramo.backend.model.Imagen;
 import com.YoProgramo.backend.model.Lenguaje;
 import com.YoProgramo.backend.repository.LenguajeRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,10 @@ import org.springframework.stereotype.Service;
 public class LenguajeService {
     @Autowired
     LenguajeRepository lenRepo;
+    
+    public Optional<Lenguaje> findByNombre(String nombre) {
+        return lenRepo.findByNombre(nombre);
+    }
     
     public List<Lenguaje> list(){
         return lenRepo.findAll();

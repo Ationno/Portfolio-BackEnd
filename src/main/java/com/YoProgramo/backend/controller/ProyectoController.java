@@ -4,7 +4,10 @@
  */
 package com.YoProgramo.backend.controller;
 
+import com.YoProgramo.backend.model.Imagen;
 import com.YoProgramo.backend.model.Proyecto;
+import com.YoProgramo.backend.service.ImagenService;
+import com.YoProgramo.backend.service.LenguajeService;
 import com.YoProgramo.backend.service.ProyectoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,12 @@ public class ProyectoController {
     @Autowired
     ProyectoService proyServ;
     
+    @Autowired
+    ImagenService imagenService;
+    
+    @Autowired
+    LenguajeService lenguajeService;
+    
     @GetMapping ("/list")
     public ResponseEntity<List<Proyecto>> list(){
         return new ResponseEntity(proyServ.list(), HttpStatus.OK);
@@ -42,8 +51,12 @@ public class ProyectoController {
     }
     
     @PostMapping("/save")
-    public void save(@RequestBody Proyecto estu) {      
-        proyServ.save(estu);
+    public void save(@RequestBody Proyecto proy) {
+        Imagen imgSobre = imagenService.findByNombre(proy.getImagen().getNombre()).orElse(null);
+        if (imgSobre != null) {
+            proy.setImagen(imgSobre);
+        }
+        proyServ.save(proy);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -52,7 +65,11 @@ public class ProyectoController {
     }
     
     @PutMapping("/update")
-    public void edit(@RequestBody Proyecto estu) {      
-        proyServ.save(estu);
+    public void edit(@RequestBody Proyecto proy) { 
+        Imagen imgSobre = imagenService.findByNombre(proy.getImagen().getNombre()).orElse(null);
+        if (imgSobre != null) {
+            proy.setImagen(imgSobre);
+        }
+        proyServ.save(proy);
     }
 }

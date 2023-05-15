@@ -44,19 +44,16 @@ public class AprendizajeController {
     
     @PostMapping("/save")
     public void save(@RequestBody Aprendizaje estu) { 
-        System.out.println("1");
         aprenServ.save(estu);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable ("id") int id){
-        System.out.println("1");
         aprenServ.delete(id);
     }
     
     @PutMapping("/update")
     public void edit(@RequestBody Aprendizaje estu) {
-        System.out.println("1");
         aprenServ.save(estu);
     }
 }
