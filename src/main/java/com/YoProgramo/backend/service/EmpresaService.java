@@ -7,6 +7,7 @@ package com.YoProgramo.backend.service;
 import com.YoProgramo.backend.model.Empresa;
 import com.YoProgramo.backend.repository.EmpresaRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,10 @@ import org.springframework.stereotype.Service;
 public class EmpresaService {
     @Autowired
     EmpresaRepository empRepo;
+    
+    public Optional<Empresa> findByNombre(String nombre) {
+        return empRepo.findByNombre(nombre);
+    }
     
     public List<Empresa> list(){
         return empRepo.findAll();

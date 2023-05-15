@@ -4,6 +4,7 @@
  */
 package com.YoProgramo.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,8 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -32,13 +31,14 @@ public class Aprendizaje {
     @NotNull
     private String parrafo;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JsonBackReference
     @JoinColumn(name = "experiencia_id") 
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Experiencia experiencia;
 
-    public Aprendizaje(String parrafo, Experiencia experiencia) {
+    public Aprendizaje() {}
+    
+    public Aprendizaje(String parrafo) {
         this.parrafo = parrafo;
-        this.experiencia = experiencia;
     }
 }

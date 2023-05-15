@@ -8,6 +8,7 @@ package com.YoProgramo.backend.model;
  *
  * @author anton
  */
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,9 +32,12 @@ public class Empresa {
     @Size(min = 1, max = 90, message = "La longitud del nombre de la institucion no es valida")
     private String nombre;
     
-    @OneToMany(mappedBy="empresa", cascade=CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy="empresa", cascade=CascadeType.REMOVE)
     private List<Experiencia> experiencias;
 
+    public Empresa() {}
+    
     public Empresa(String nombre) {
         this.nombre = nombre;
     }

@@ -4,8 +4,12 @@
  */
 package com.YoProgramo.backend.controller;
 
+import com.YoProgramo.backend.model.Empresa;
 import com.YoProgramo.backend.model.Experiencia;
+import com.YoProgramo.backend.model.Imagen;
+import com.YoProgramo.backend.service.EmpresaService;
 import com.YoProgramo.backend.service.ExperienciaService;
+import com.YoProgramo.backend.service.ImagenService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +35,12 @@ public class ExperienciaController {
     @Autowired
     ExperienciaService expServ;
     
+    @Autowired
+    ImagenService imagenService;
+    
+    @Autowired
+    EmpresaService empresaService;
+    
     @GetMapping ("/list")
     public ResponseEntity<List<Experiencia>> list(){
         return new ResponseEntity(expServ.list(), HttpStatus.OK);
@@ -42,7 +52,15 @@ public class ExperienciaController {
     }
     
     @PostMapping("/save")
-    public void save(@RequestBody Experiencia estu) {      
+    public void save(@RequestBody Experiencia estu) {  
+        Imagen imgSobre = imagenService.findByNombre(estu.getImagen().getNombre()).orElse(null);
+        if (imgSobre != null) {
+            estu.setImagen(imgSobre);
+        }
+        Empresa empSobre = empresaService.findByNombre(estu.getEmpresa().getNombre()).orElse(null);
+        if (empSobre != null) {
+            estu.setEmpresa(empSobre);
+        }
         expServ.save(estu);
     }
 
@@ -53,6 +71,15 @@ public class ExperienciaController {
     
     @PutMapping("/update")
     public void edit(@RequestBody Experiencia estu) {      
+        Imagen imgSobre = imagenService.findByNombre(estu.getImagen().getNombre()).orElse(null);
+        if (imgSobre != null) {
+            estu.setImagen(imgSobre);
+        }
+        Empresa empSobre = empresaService.findByNombre(estu.getEmpresa().getNombre()).orElse(null);
+        if (empSobre != null) {
+            estu.setEmpresa(empSobre);
+        }
+        estu.getAprendizajes().forEach(elem -> System.out.println(elem.getParrafo()));
         expServ.save(estu);
     }
 }

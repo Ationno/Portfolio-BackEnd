@@ -10,6 +10,7 @@ import com.YoProgramo.backend.model.Institucion;
 import com.YoProgramo.backend.service.EducacionService;
 import com.YoProgramo.backend.service.ImagenService;
 import com.YoProgramo.backend.service.InstitucionService;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,9 +71,16 @@ public class EducacionController {
     }
     
     @PutMapping("/update")
-    public void edit(@RequestBody Educacion edu) { 
-        System.out.println(edu.getInstitucion().getNombre());
-        System.out.println(edu.getImagen().getNombre());
+    @Transactional
+    public void edit(@RequestBody Educacion edu) {
+        Imagen imgSobre = imagenService.findByNombre(edu.getImagen().getNombre()).orElse(null);
+        if (imgSobre != null) {
+            edu.setImagen(imgSobre);
+        }
+        Institucion instSobre = institucionService.findByNombre(edu.getInstitucion().getNombre()).orElse(null);
+        if (instSobre != null) {
+            edu.setInstitucion(instSobre);
+        }
         eduServ.save(edu);
     }
 }
