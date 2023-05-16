@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/empresa")
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"https://frontendanto-57b59.web.app/"})
 public class EmpresaController {
     @Autowired
     EmpresaService empServ;
